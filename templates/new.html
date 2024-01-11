@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: url('static/public/1063416041579261030301thumbnailreports-deepfakevideo-clean-03-1@2x.png');
+            background-size: cover;
+            color: #fbfdff;
+        }
+
+        h1 {
+            margin-top: 30px; /* Adjust the top margin as needed */
+            color:#fff;
+        }
+
+        .image-input-container {
+            text-align: center;
+            padding: 30px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            background: radial-gradient(circle at 10% 20%, rgba(40, 3, 3, 0.486) 0%, rgb(28, 7, 98) 72.9%);
+            color: #fff;
+        }
+
+        #displayText {
+            display: none;
+            padding: 10px;
+            background-color: #000000;
+            border: 1px solid #000000;
+            margin-top: 10px;
+            max-width: 300px;
+        }
+
+        .image-input-container label {
+            display: block;
+            margin-bottom: 15px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #2c3e50;
+            color: #fff;
+        }
+
+        .image-input-container input[type="file"] {
+            display: none;
+        }
+
+        .upload-btn-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+        }
+
+        .btn {
+            border: 2px solid #fff;
+            color: #fff;
+            background-color: #3498db;
+            padding: 8px 20px;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #2980b9;
+        }
+
+        .image-preview {
+            margin-top: 30px;
+        }
+
+        .image-preview img {
+            max-width: 300px;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <h1>Deep Fake Detection</h1>
+    <p id="displayText">Generating Your Text Please Wait...</p>
+    <form action="/predict" method="POST" enctype="multipart/form-data">
+        <div class="image-input-container">
+            <label for="imageInput">Choose an image <img src="static/icon.png" alt="Icon"></label>
+            <div class="upload-btn-wrapper">
+                <input type="file" id="imageInput" name="im" accept="image/*" />
+                <button class="btn" onclick="dis()">Upload a file</button>
+            </div>
+            <div class="image-preview" id="imagePreview"></div>
+            <h2>{{predicted_label}}</h2>
+        </div>
+        
+    </form>
+
+    <script>
+        function dis() {
+            var textElement = document.getElementById("displayText");
+            textElement.style.display = "block";
+        }
+
+        document.getElementById('imageInput').addEventListener('change', function (event) {
+            var input = event.target;
+            var preview = document.getElementById('imagePreview');
+
+            while (preview.firstChild) {
+                preview.removeChild(preview.firstChild);
+            }
+
+            var files = input.files;
+            for (var i = 0; i < files.length; i++) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    var image = document.createElement('img');
+                    image.src = e.target.result;
+                    preview.appendChild(image);
+                };
+
+                reader.readAsDataURL(files[i]);
+            }
+        });
+    </script>
+</body>
+</html>
