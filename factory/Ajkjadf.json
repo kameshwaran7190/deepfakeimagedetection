@@ -1,0 +1,9 @@
+{
+	"name": "Ajkjadf",
+	"location": "centralindia",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "12fd3b9d-ca02-48f1-b0f9-450f4c87d684",
+		"tenantId": "35b8288b-ccbe-4178-af8f-bf3ee1d6a7bf"
+	}
+}
